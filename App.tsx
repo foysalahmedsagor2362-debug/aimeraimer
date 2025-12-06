@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, MessageSquare, Sparkles, BrainCircuit } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Sparkles, Atom } from 'lucide-react';
 import { StudyStats, AppTab } from './types';
 import { TrackerPanel } from './components/TrackerPanel';
 import { ChatPanel } from './components/ChatPanel';
@@ -36,8 +36,6 @@ const App: React.FC = () => {
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
     if (stats.lastStudyDate !== today) {
-      // Logic for streak calculation could go here (e.g. check if yesterday was last study date)
-      // For now, just update the date
       setStats(prev => ({ ...prev, lastStudyDate: today }));
     }
   }, []);
@@ -62,27 +60,27 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen text-slate-200 font-sans selection:bg-neon-blue/30 overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden flex flex-col">
       
       {/* --- Header --- */}
-      <header className="h-16 border-b border-white/10 bg-glass-dark backdrop-blur-md flex items-center justify-between px-6 z-50 shrink-0">
+      <header className="h-16 border-b border-slate-200 bg-white shadow-sm flex items-center justify-between px-6 z-50 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="bg-gradient-to-br from-neon-blue to-neon-purple p-2 rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-            <BrainCircuit size={24} className="text-white" />
+          <div className="bg-primary-600 p-2 rounded-lg text-white shadow-md shadow-primary-200">
+            <Atom size={24} />
           </div>
           <div>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-              Gemini Study Companion
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              STEM Study AI
             </h1>
-            <p className="text-[10px] text-neon-blue tracking-wider uppercase font-medium">Powered by Google Gemini 2.5</p>
+            <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Physics • Chem • Bio • Math</p>
           </div>
         </div>
 
         {/* Desktop Nav - Hidden on Mobile */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <span className="hover:text-white cursor-pointer transition-colors">Dashboard</span>
-            <span className="hover:text-white cursor-pointer transition-colors">Resources</span>
-            <span className="hover:text-white cursor-pointer transition-colors">Settings</span>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
+            <span className="hover:text-primary-600 cursor-pointer transition-colors">Dashboard</span>
+            <span className="hover:text-primary-600 cursor-pointer transition-colors">Formulas</span>
+            <span className="hover:text-primary-600 cursor-pointer transition-colors">Settings</span>
         </div>
       </header>
 
@@ -90,17 +88,17 @@ const App: React.FC = () => {
       <main className="flex-1 overflow-hidden relative p-4 md:p-6 max-w-[1600px] mx-auto w-full">
         <div className="grid md:grid-cols-12 gap-6 h-full">
           
-          {/* Left Panel: Tracker (Visible on Desktop, or Mobile Tab) */}
+          {/* Left Panel: Tracker */}
           <div className={`md:col-span-3 h-full overflow-hidden ${activeTab === AppTab.TRACKER ? 'block' : 'hidden md:block'}`}>
             <TrackerPanel stats={stats} updateStats={updateStats} />
           </div>
 
-          {/* Center Panel: Chat (Visible on Desktop, or Mobile Tab) */}
+          {/* Center Panel: Chat */}
           <div className={`md:col-span-6 h-full flex flex-col ${activeTab === AppTab.CHAT ? 'block' : 'hidden md:block'}`}>
             <ChatPanel incrementStats={incrementQuestions} />
           </div>
 
-          {/* Right Panel: Summarizer (Visible on Desktop, or Mobile Tab) */}
+          {/* Right Panel: Summarizer */}
           <div className={`md:col-span-3 h-full overflow-hidden ${activeTab === AppTab.SUMMARIZER ? 'block' : 'hidden md:block'}`}>
             <SummarizerPanel incrementStats={incrementSummaries} />
           </div>
@@ -109,27 +107,27 @@ const App: React.FC = () => {
       </main>
 
       {/* --- Mobile Navigation Bar --- */}
-      <div className="md:hidden h-16 bg-slate-900 border-t border-white/10 flex items-center justify-around shrink-0 z-50">
+      <div className="md:hidden h-16 bg-white border-t border-slate-200 flex items-center justify-around shrink-0 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <button 
           onClick={() => setActiveTab(AppTab.TRACKER)}
-          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.TRACKER ? 'text-neon-blue' : 'text-slate-500'}`}
+          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.TRACKER ? 'text-primary-600' : 'text-slate-400'}`}
         >
           <LayoutDashboard size={20} />
-          <span className="text-[10px]">Tracker</span>
+          <span className="text-[10px] font-medium">Tracker</span>
         </button>
         <button 
           onClick={() => setActiveTab(AppTab.CHAT)}
-          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.CHAT ? 'text-neon-blue' : 'text-slate-500'}`}
+          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.CHAT ? 'text-primary-600' : 'text-slate-400'}`}
         >
           <MessageSquare size={20} />
-          <span className="text-[10px]">Tutor</span>
+          <span className="text-[10px] font-medium">Tutor</span>
         </button>
         <button 
           onClick={() => setActiveTab(AppTab.SUMMARIZER)}
-          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.SUMMARIZER ? 'text-neon-blue' : 'text-slate-500'}`}
+          className={`flex flex-col items-center gap-1 ${activeTab === AppTab.SUMMARIZER ? 'text-primary-600' : 'text-slate-400'}`}
         >
           <Sparkles size={20} />
-          <span className="text-[10px]">Summarize</span>
+          <span className="text-[10px] font-medium">Summarize</span>
         </button>
       </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Link as LinkIcon, Upload, Copy, BookOpen, Layers, HelpCircle } from 'lucide-react';
+import { FileText, Upload, Copy, BookOpen, Layers, HelpCircle } from 'lucide-react';
 import { GlassCard, Button } from './UIComponents';
 import { SummaryResult } from '../types';
 import { generateSmartSummary } from '../services/geminiService';
@@ -37,18 +37,18 @@ export const SummarizerPanel: React.FC<SummarizerPanelProps> = ({ incrementStats
   };
 
   return (
-    <div className="h-full flex flex-col gap-4 overflow-y-auto">
+    <div className="h-full flex flex-col gap-4 overflow-y-auto pr-2">
       {/* Input Card */}
-      <GlassCard title="Smart Summarizer" icon={<Layers size={18} />}>
-        <div className="flex gap-2 mb-4 bg-slate-800/50 p-1 rounded-lg">
+      <GlassCard title="Content Summarizer" icon={<Layers size={18} />}>
+        <div className="flex gap-2 mb-4 bg-slate-100 p-1 rounded-lg">
           {(['text', 'url', 'file'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${
+              className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
                 activeTab === tab 
-                  ? 'bg-neon-blue/20 text-neon-blue' 
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-primary-600 shadow-sm' 
+                  : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               {tab.toUpperCase()}
@@ -60,8 +60,8 @@ export const SummarizerPanel: React.FC<SummarizerPanelProps> = ({ incrementStats
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Paste your study notes or article text here..."
-            className="w-full h-32 bg-slate-900/50 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-neon-blue/50 resize-none mb-3"
+            placeholder="Paste your Physics, Chemistry, Bio or Math notes here..."
+            className="w-full h-32 bg-white border border-slate-200 rounded-lg p-3 text-sm text-slate-800 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none mb-3"
           />
         )}
 
@@ -69,19 +69,18 @@ export const SummarizerPanel: React.FC<SummarizerPanelProps> = ({ incrementStats
           <div className="space-y-3 mb-3">
              <input
               type="text"
-              placeholder="https://example.com/article"
-              className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-neon-blue/50"
+              placeholder="https://example.com/science-article"
+              className="w-full bg-white border border-slate-200 rounded-lg p-3 text-sm text-slate-800 focus:outline-none focus:border-primary-500"
               disabled
             />
-             <p className="text-xs text-yellow-500/80">URL extraction coming soon. Please paste text for now.</p>
+             <p className="text-xs text-orange-500">URL extraction coming soon.</p>
           </div>
         )}
 
         {activeTab === 'file' && (
-          <div className="border-2 border-dashed border-white/10 rounded-lg h-32 flex flex-col items-center justify-center mb-3 cursor-pointer hover:bg-white/5 transition-colors">
+          <div className="border-2 border-dashed border-slate-200 rounded-lg h-32 flex flex-col items-center justify-center mb-3 cursor-pointer hover:bg-slate-50 transition-colors">
             <Upload className="text-slate-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400">Click to upload PDF or TXT</span>
-            <span className="text-[10px] text-slate-600 mt-1">(Mock UI Only)</span>
+            <span className="text-xs text-slate-500 font-medium">Upload PDF/TXT</span>
           </div>
         )}
 
@@ -91,15 +90,15 @@ export const SummarizerPanel: React.FC<SummarizerPanelProps> = ({ incrementStats
           disabled={!inputText && activeTab === 'text'}
           className="w-full"
         >
-          Generate Summary
+          Summarize Content
         </Button>
       </GlassCard>
 
       {/* Results Display */}
       {result && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4 pb-4">
-          <GlassCard title="Summary" icon={<BookOpen size={18} className="text-neon-pink" />}>
-            <p className="text-sm text-slate-300 leading-relaxed mb-3">{result.summary}</p>
+          <GlassCard title="Summary" icon={<BookOpen size={18} className="text-primary-600" />}>
+            <p className="text-sm text-slate-600 leading-relaxed mb-3 text-justify">{result.summary}</p>
             <Button 
               variant="secondary" 
               className="text-xs py-1 h-8" 
@@ -110,33 +109,33 @@ export const SummarizerPanel: React.FC<SummarizerPanelProps> = ({ incrementStats
             </Button>
           </GlassCard>
 
-          <GlassCard title="Key Points" icon={<FileText size={18} className="text-green-400" />}>
+          <GlassCard title="Key Concepts" icon={<FileText size={18} className="text-emerald-600" />}>
             <ul className="space-y-2">
               {result.keyPoints.map((point, idx) => (
-                <li key={idx} className="flex gap-2 text-sm text-slate-300">
-                  <span className="text-green-400 mt-1">•</span>
+                <li key={idx} className="flex gap-2 text-sm text-slate-700">
+                  <span className="text-emerald-500 mt-1 font-bold">•</span>
                   {point}
                 </li>
               ))}
             </ul>
           </GlassCard>
 
-          <GlassCard title="Key Terms" icon={<Layers size={18} className="text-orange-400" />}>
+          <GlassCard title="Definitions" icon={<Layers size={18} className="text-orange-500" />}>
             <div className="grid gap-3">
               {result.terms.map((item, idx) => (
-                <div key={idx} className="bg-slate-800/50 p-3 rounded-lg border border-white/5">
-                  <span className="text-orange-300 font-medium text-sm block mb-1">{item.term}</span>
-                  <span className="text-xs text-slate-400">{item.definition}</span>
+                <div key={idx} className="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
+                  <span className="text-orange-700 font-bold text-sm block mb-1">{item.term}</span>
+                  <span className="text-xs text-slate-600">{item.definition}</span>
                 </div>
               ))}
             </div>
           </GlassCard>
 
-          <GlassCard title="Flashcards / Quiz" icon={<HelpCircle size={18} className="text-neon-blue" />}>
+          <GlassCard title="Practice Quiz" icon={<HelpCircle size={18} className="text-primary-600" />}>
              <div className="space-y-3">
               {result.practiceQuestions.map((q, idx) => (
-                <div key={idx} className="bg-neon-blue/10 border border-neon-blue/20 p-3 rounded-lg">
-                  <p className="text-sm text-neon-blue font-medium">Q{idx + 1}: {q}</p>
+                <div key={idx} className="bg-primary-50 border border-primary-100 p-3 rounded-lg">
+                  <p className="text-sm text-primary-800 font-medium">Q{idx + 1}: {q}</p>
                 </div>
               ))}
             </div>

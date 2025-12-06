@@ -13,12 +13,18 @@ export const createChatSession = (): Chat => {
   return ai.chats.create({
     model: MODEL_NAME,
     config: {
-      systemInstruction: `You are an expert AI Tutor. Your goal is to help students learn effectively.
-      - Explain concepts clearly and step-by-step.
-      - Use formatting (bold, lists, markdown) to make answers readable.
-      - If math is involved, use LaTeX formatting.
-      - Be encouraging and concise.
-      - When asked, provide examples.`,
+      systemInstruction: `You are a specialized Academic Tutor focused strictly on Science and Mathematics. 
+      
+      YOUR SCOPE:
+      - Physics
+      - Chemistry
+      - Biology
+      - Mathematics
+
+      RULES:
+      1. If a user asks a question related to these four subjects, answer clearly, accurately, and step-by-step. Use LaTeX for math.
+      2. If a user asks about anything else (History, Literature, Coding, Politics, General Chat, etc.), politely decline. Say: "I specialize only in Physics, Chemistry, Biology, and Math. Please ask me something in those fields."
+      3. Keep formatting clean and academic.`,
     },
   });
 };
@@ -26,7 +32,9 @@ export const createChatSession = (): Chat => {
 // --- Summary Service ---
 
 export const generateSmartSummary = async (text: string): Promise<SummaryResult> => {
-  const prompt = `Analyze the following study material and provide a structured summary.
+  const prompt = `Analyze the following study material and provide a structured summary. 
+  Ensure the summary is strictly academic and related to Physics, Chemistry, Biology, or Math context if possible.
+  
   Material:
   """
   ${text.substring(0, 30000)} 
@@ -59,6 +67,7 @@ export const generateSmartSummary = async (text: string): Promise<SummaryResult>
                 term: { type: Type.STRING },
                 definition: { type: Type.STRING },
               },
+              required: ["term", "definition"],
             },
             description: "Important terms and their brief definitions found in the text.",
           },

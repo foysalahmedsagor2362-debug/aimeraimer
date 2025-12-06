@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gemini Study Companion</title>
+    <title>STEM Study Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,19 +20,13 @@
               mono: ['JetBrains Mono', 'monospace'],
             },
             colors: {
-              neon: {
-                blue: '#00f5ff',
-                purple: '#a855f7',
-                pink: '#ff00ff',
-              },
-              glass: {
-                light: 'rgba(255, 255, 255, 0.1)',
-                dark: 'rgba(15, 23, 42, 0.6)',
-                border: 'rgba(255, 255, 255, 0.1)',
+              primary: {
+                50: '#eff6ff',
+                100: '#dbeafe',
+                500: '#3b82f6',
+                600: '#2563eb',
+                700: '#1d4ed8',
               }
-            },
-            animation: {
-              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             }
           },
         },
@@ -40,16 +34,10 @@
     </script>
     <style>
       body {
-        background-color: #0f172a;
-        background-image: 
-          radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-          radial-gradient(at 100% 0%, rgba(0, 245, 255, 0.15) 0px, transparent 50%),
-          radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-          radial-gradient(at 0% 100%, rgba(0, 245, 255, 0.15) 0px, transparent 50%);
-        background-attachment: fixed;
-        color: #f8fafc;
+        background-color: #f8fafc; /* Slate-50 */
+        color: #0f172a; /* Slate-900 */
       }
-      /* Custom Scrollbar */
+      /* Custom Scrollbar for Light Mode */
       ::-webkit-scrollbar {
         width: 6px;
         height: 6px;
@@ -58,11 +46,11 @@
         background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.1);
+        background: #cbd5e1;
         border-radius: 3px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: #94a3b8;
       }
     </style>
   <script type="importmap">

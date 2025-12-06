@@ -8,22 +8,23 @@ interface GlassCardProps {
   active?: boolean;
 }
 
+// Renamed internally concept to just "Card" style, though keeping export name for compatibility
 export const GlassCard: React.FC<GlassCardProps> = ({ children, className = '', title, icon, active = false }) => {
   return (
     <div 
       className={`
-        relative overflow-hidden rounded-2xl border transition-all duration-300
+        relative overflow-hidden rounded-xl border transition-all duration-300 bg-white
         ${active 
-          ? 'bg-slate-800/80 border-neon-blue/50 shadow-[0_0_15px_rgba(0,245,255,0.15)]' 
-          : 'bg-glass-dark backdrop-blur-xl border-glass-border hover:border-white/20'
+          ? 'border-primary-500 ring-1 ring-primary-500 shadow-md' 
+          : 'border-slate-200 shadow-sm hover:border-primary-300 hover:shadow-md'
         }
         ${className}
       `}
     >
       {(title || icon) && (
-        <div className="flex items-center gap-2 p-4 border-b border-white/5 bg-white/5">
-          {icon && <span className="text-neon-blue">{icon}</span>}
-          {title && <h3 className="font-semibold text-slate-100 tracking-wide">{title}</h3>}
+        <div className="flex items-center gap-2 p-4 border-b border-slate-100 bg-slate-50/50">
+          {icon && <span className="text-primary-600">{icon}</span>}
+          {title && <h3 className="font-semibold text-slate-800 tracking-tight">{title}</h3>}
         </div>
       )}
       <div className="p-4 h-full">
@@ -47,13 +48,13 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
   ...props 
 }) => {
-  const baseStyles = "inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variants = {
-    primary: "bg-gradient-to-r from-neon-blue to-blue-600 text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98]",
-    secondary: "bg-white/10 hover:bg-white/20 text-white border border-white/10",
-    danger: "bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20",
-    ghost: "text-slate-400 hover:text-white hover:bg-white/5"
+    primary: "bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:scale-[0.98]",
+    secondary: "bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200",
+    danger: "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200",
+    ghost: "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
   };
 
   return (
